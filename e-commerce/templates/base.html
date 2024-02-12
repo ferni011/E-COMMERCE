@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+
+{% load socialaccount %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>E-tienda</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!--Para que podamos hacer el dropwdown-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!--Para usar las estrellas-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--AXIOS-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Barra de navegación superior -->
+    {% block barrasuperior %}
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <span class="navbar-text h2 fw-bold">
+                {% block inicio %}
+                <a href="../landing-page"> E-tienda</a>
+                {% endblock %}
+            </span>
+
+            {% block busqueda %}
+            <form class="d-flex" method="get" action="../busqueda/">
+                <input class="form-control me-2" type="search" name="palabra" placeholder="Search" aria-label="Search">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </form>
+            {% endblock %}
+
+
+            {% block anadir %}
+            <a href="../anadir" class="btn btn-primary">Añadir producto</a>
+            {% endblock %}
+
+
+            {% block categorias %}
+            <ul class="navbar-nav me-5">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Categorías
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="../categoria/mens-clothing">Men's clothing</a></li>
+                        <li><a class="dropdown-item" href="../categoria/womens-clothing">Women's clothing</a></li>
+                        <li><a class="dropdown-item" href="../categoria/jewelery">Jewelery</a></li>
+                        <li><a class="dropdown-item" href="../categoria/electronics">Electronics</a></li>
+                    </ul>
+                </li>
+            </ul>
+            {% endblock %}
+
+
+            <div class="ms-3 me-3">
+                {% if user.is_authenticated %}
+                <p class="mb-0">Bienvenido {{ user.username }} </p>
+                <a href="{% url 'account_logout' %}">Cerrar sesión</a>
+                {% else %}
+                <a href="{% url 'account_login' %}">Iniciar sesión</a>
+                {% endif %}
+            </div>
+
+        </div>
+    </nav>
+    {% endblock %}
+
+    {% block cuerpo %}
+
+    
+    {% endblock %}
+
+</html>

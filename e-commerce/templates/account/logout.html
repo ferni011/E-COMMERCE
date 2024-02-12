@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% load socialaccount %}
+
+
+{% block inicio %}
+<a href="../../etienda/landing-page"> E-tienda</a>
+{% endblock %}
+
+{% block categorias %}
+<ul class="navbar-nav me-5">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Categorías
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="../../etienda/categoria/mens-clothing">Men's clothing</a></li>
+            <li><a class="dropdown-item" href="../../etienda/categoria/womens-clothing">Women's clothing</a></li>
+            <li><a class="dropdown-item" href="../../etienda/categoria/jewelery">Jewelery</a></li>
+            <li><a class="dropdown-item" href="../../etienda/categoria/electronics">Electronics</a></li>
+        </ul>
+    </li>
+</ul>
+{% endblock %}
+
+{% block cuerpo %}
+    <div class="container d-flex justify-content-center align-items-center" style="height: 70vh;">
+        <div class="row">
+            <div class="col">
+                <h1 class="text-center">Cerrar sesión</h1>
+                <p class="text-center">¿Estás seguro que quieres cerrar sesión?</p>
+
+                <div class="text-center"> 
+                    {% url 'account_logout' as action_url %}
+                    <form method="post" action="{{ action_url }}">
+                        {% csrf_token %}
+                        {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                        {% endif %}
+                        <button type="submit" class="btn btn-primary">Cerrar sesión</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

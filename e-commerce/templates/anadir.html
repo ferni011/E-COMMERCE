@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block cuerpo %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 mt-4">
+            {% include 'messages.html' %}
+
+            <form action="{% url 'anadir-producto' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="{{ form.title.id_for_label }}" class="form-label">{{ form.title.label }}</label>
+                    <input type="text" class="form-control" id="{{ form.title.id_for_label }}"
+                        name="{{ form.title.name }}">
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.price.id_for_label }}" class="form-label">{{ form.price.label }}</label>
+                    <input type="text" class="form-control" id="{{ form.price.id_for_label }}"
+                        name="{{ form.price.name }}">
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.category.id_for_label }}" class="form-label">{{ form.category.label }}</label>
+                    {{ form.category }}
+                </div>
+
+                <div class="mb-3">
+                    <label for="{{ form.image.id_for_label }}" class="form-label">{{ form.image.label }}</label>
+                    <input type="file" class="form-control" id="{{ form.image.id_for_label }}"
+                        name="{{ form.image.name }}">
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.description.id_for_label }}" class="form-label">Descripción</label>
+                    <textarea name="{{ form.description.name }}" class="form-control"
+                        id="{{ form.description.id_for_label }}" rows="4" style="resize: none"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Añadir</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<h1>{{ cadena }}</h1>
+
+
+
+{% endblock %}

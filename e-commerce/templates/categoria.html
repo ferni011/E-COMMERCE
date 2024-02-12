@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load socialaccount %}
+
+
+{% block inicio %}
+<a href="../../landing-page"> E-tienda</a>
+{% endblock %}
+
+{% block busqueda %}
+<form class="d-flex" method="get" action="../../busqueda/">
+    <input class="form-control me-2" type="search" name="palabra" placeholder="Search" aria-label="Search">
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
+{% endblock %}
+
+{% block anadir %}
+<a href="../../anadir" class="btn btn-primary">Añadir producto</a>
+{% endblock %}
+
+{% block categorias %}
+<ul class="navbar-nav me-5">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Categorías
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="../mens-clothing">Men's clothing</a></li>
+            <li><a class="dropdown-item" href="../womens-clothing">Women's clothing</a></li>
+            <li><a class="dropdown-item" href="../jewelery">Jewelery</a></li>
+            <li><a class="dropdown-item" href="../electronics">Electronics</a></li>
+        </ul>
+    </li>
+</ul>
+{% endblock %}
+
+
+{% block cuerpo %}
+<div class="container mt-5">
+    <div class="row">
+        {% for prod in productos %}
+        <div class="col-md-4 d-flex align-items-stretch">
+            <div class="card mb-3">
+                <img src="{% static prod.image %}" class="card-img-top img-custom-size"
+                    style="width: 100%; height: 450px;" alt="{{ prod.title }}">
+                <div class="card-body d-flex flex-column">
+                    <div class="flex-grow-1">
+                        <h5 class="card-title mb-auto">
+                            <p data-title="{{ prod.title }}">{{ prod.title }}</p>
+                        </h5>
+
+                        <h5 class="card-subtitle mt-2 font-weight-bold">€ {{ prod.price }}</h5>
+
+                        <span class="sp" data-product-id="{{ prod.id }}"></span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if forloop.counter|divisibleby:3 %}
+    </div>
+    <div class="row">
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const span_para_estrellas = document.querySelectorAll('span.sp');
+
+        let isUserAuthenticated = "{{ user.is_authenticated }}";
+
+        if(isUserAuthenticated == "False"){
+            span_para_estrellas.forEach((ele) => {
+                ele.style.display = 'none';
+            });
+        }
+        else{
+            console.log("USUARIO AUTENTICADO");
+        }
+
+        span_para_estrellas.forEach((ele) => {
+            ele.innerHTML = `
+                <span class="fa fa-star text-muted"></span>
+                <span class="fa fa-star text-muted"></span>
+                <span class="fa fa-star text-muted"></span>
+                <span class="fa fa-star text-muted"></span>
+                <span class="fa fa-star text-muted"></span>
+            `;
+
+            // Crear un nuevo elemento p y añadirlo al final del elemento span
+            let p = document.createElement('p');
+            ele.appendChild(p);
+
+            // Añade un controlador de eventos de clic a cada estrella
+            ele.querySelectorAll('.fa-star').forEach((star, index) => {
+                // Obtener el id del producto
+                let id = ele.getAttribute('data-product-id');
+                let token = "root";
+
+                star.addEventListener('click', () => {
+                    // Cambia el color de las estrellas hasta la estrella en la que se hizo clic
+                    ele.querySelectorAll('.fa-star').forEach((star, starIndex) => {
+                        star.className = starIndex <= index ? 'fa fa-star text-warning' : 'fa fa-star text-muted';
+                    });
+
+                    // Conectar con el API para enviar el rating...
+                    axios.post(`/api/productos/${id}/rating`, { new_rating: index + 1 }, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                        .then(response => {
+                            //Una vez que la nueva calificación ha sido añadida, obtener el total de votos y el rating
+                            return axios.get(`/api/productos/${id}/rating`, {
+                                headers: {
+                                    'Authorization': `Bearer ${token}`
+                                }
+                            });
+                        })
+                        .then(response => {
+                            // Actualizar el innerHTML del elemento p con los nuevos datos
+                            p.innerHTML = ` <br> La calificación es: ${response.data.rate}. <br> El total de votos es: ${response.data.count}.`;
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                });
+            });
+        });
+    });
+</script>
+
+{% endblock %}
+
+

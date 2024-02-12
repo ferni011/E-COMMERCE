@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% load socialaccount %}
+
+{% block inicio %}
+<a href="../../etienda/landing-page"> E-tienda</a>
+{% endblock %}
+
+{% block categorias %}
+<ul class="navbar-nav me-5">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Categorías
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="../../etienda/categoria/mens-clothing">Men's clothing</a></li>
+            <li><a class="dropdown-item" href="../../etienda/categoria/womens-clothing">Women's clothing</a></li>
+            <li><a class="dropdown-item" href="../../etienda/categoria/jewelery">Jewelery</a></li>
+            <li><a class="dropdown-item" href="../../etienda/categoria/electronics">Electronics</a></li>
+        </ul>
+    </li>
+</ul>
+{% endblock %}
+
+{% block cuerpo %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 70vh;">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center">Regístrate</h1>
+
+            <p class="text-center">
+                Si ya tienes una cuenta, por favor
+                <a href="{{ login_url }}">inicia sesión</a>.
+            </p>
+
+            {% url 'account_signup' as signup_url %}
+            <form method="post" action="{{ signup_url }}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Regístrate</button>
+            </form>
+
+            <a href="{% provider_login_url 'github' %}" class="btn btn-secondary mt-3">Regístrate con GitHub</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

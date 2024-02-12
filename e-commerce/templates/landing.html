@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block cuerpo %}
+
+{% include 'messages.html' %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-sm-4 mb-3 mb-sm-0">
+            <div class="card">
+                <div class="card-header">
+                    <img src="{% static 'electronica.jpg' %}" class="card-img-top" style="width: 100%; height: 300px;" alt="Electronics">
+                    <div class="card-body">
+                        <h5 class="card-title">Electronics</h5>
+                        <a href="../categoria/electronics" class="btn btn-primary">Ver todos los productos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 mb-3 mb-sm-0">
+            <div class="card">
+                <div class="card-header">
+                    <img src="{% static 'joyas.jpg' %}" class="card-img-top" style="width: 100%; height: 300px;" alt="Jewelery">
+                    <div class="card-body">
+                        <h5 class="card-title">Jewelery</h5>
+                        <a href="../categoria/jewelery" class="btn btn-primary">Ver todos los productos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 mb-3 mb-sm-0">
+            <div class="card">
+                <div class="card-header">
+                    <img src="{% static 'ropadehombre.jpg' %}" class="card-img-top" style="width: 100%; height: 300px;" alt="Men's clothing">
+                    <div class="card-body">
+                        <h5 class="card-title">Men's clothing</h5>
+                        <a href="../categoria/mens-clothing" class="btn btn-primary">Ver todos los productos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 mb-3 mb-sm-0">
+            <div class="card">
+                <div class="card-header">
+                    <img src="{% static 'ropademujer.jpg' %}" class="card-img-top" style="width: 100%; height: 300px;" alt="Women's clothing">
+                    <div class="card-body">
+                        <h5 class="card-title">Women's clothing</h5>
+                        <a href="../categoria/womens-clothing" class="btn btn-primary">Ver todos los productos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
